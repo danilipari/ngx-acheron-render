@@ -2,13 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'lib-acheron',
-  template: `
-    <p>
-      acheron works!
-    </p>
-  `,
-  styles: [
-  ]
+  templateUrl: './acheron.component.html',
+  styleUrls: ['./acheron.component.scss']
 })
 export class AcheronComponent implements OnInit {
 
