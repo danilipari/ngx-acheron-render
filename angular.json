@@ -125,6 +125,46 @@
           }
         }
       }
+    },
+    "acheron": {
+      "projectType": "library",
+      "root": "projects/acheron",
+      "sourceRoot": "projects/acheron/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/acheron/tsconfig.lib.json",
+            "project": "projects/acheron/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/acheron/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/acheron/src/test.ts",
+            "tsConfig": "projects/acheron/tsconfig.spec.json",
+            "karmaConfig": "projects/acheron/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/acheron/tsconfig.lib.json",
+              "projects/acheron/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "acheron-render"
