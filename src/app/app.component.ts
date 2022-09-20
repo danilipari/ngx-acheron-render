@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'acheron-render';
+  public title = 'acheron-render';
+  public version = 0;
+
+  public updateVersion(element: any): void {
+    console.log(element, 'element');
+    this.version = element;
+  }
 }

@@ -1,7 +1,3 @@
-<p>
-  acheron works! test 8
-</p>
-
 <div class="container-fluid px-0">
   <div class="p-4" *ngIf="form_load && forms.length > 0">
 
@@ -16,7 +12,22 @@
             <small>{{ elementF.value }}</small>
             <p class="mb-0 text-muted">{{ elementF.description }}</p>
           </div>
-          <input (click)="setTouched(indexForm)" class=" form-control form-control-lg " [ngClass]="requiredCheck(elementF) ? 'border border-danger': ''" autocomplete="off" [name]="elementF.name" [id]="elementF.name" [type]="elementF.inputType" [placeholder]="elementF.placeholder" [disabled]="!elementF.enabled" [(ngModel)]="elementF.value">
+
+          <container-element [ngSwitch]="elementF.component">
+            <ng-container *ngSwitchCase="'input'">
+              <input (click)="setTouched(indexForm)" class=" form-control form-control-lg " [ngClass]="requiredCheck(elementF) ? 'border border-danger': ''" autocomplete="off" [name]="elementF.name" [id]="elementF.name" [type]="elementF.inputType" [placeholder]="elementF.placeholder" [disabled]="!elementF.enabled" [(ngModel)]="elementF.value">
+            </ng-container>
+            <ng-container *ngSwitchCase="'select'">
+              <select (click)="setTouched(indexForm)" [ngClass]="requiredCheck(elementF) ? 'border border-danger': ''" class="form-select form-select-lg" [name]="elementF.name" [id]="elementF.name" [disabled]="!elementF.enabled" [(ngModel)]="elementF.value">
+                <option value="">Select one option</option>
+                <option [value]="option.value" *ngFor="let option of elementF.options; let iF = index">{{ option.value }}</option>
+              </select>
+            </ng-container>
+            <ng-container *ngSwitchCase="'textarea'">
+              <textarea (click)="setTouched(indexForm)" class=" form-control form-control-lg " [ngClass]="requiredCheck(elementF) ? 'border border-danger': ''" autocomplete="off" [name]="elementF.name" [id]="elementF.name" [placeholder]="elementF.placeholder" [disabled]="!elementF.enabled" [(ngModel)]="elementF.value" cols="30" rows="10"></textarea>
+            </ng-container>
+          </container-element>
+
           <div class="d-flex flex-column w-75 border border-danger mt-2 p-2 rounded" *ngIf="elementF.touched && (requiredCheck(elementF) || (!checkRegex(elementF.validation, elementF.value) && (elementF.validation !== '')))">
             <small class="text-danger" *ngIf="requiredCheck(elementF)">&#9679; Required</small>
             <small class="text-danger" *ngIf="!checkRegex(elementF.validation, elementF.value) && (elementF.validation !== '')">&#9679; Regex -  {{ elementF.validation !== "" ? elementF.validation : 'no-regex' }} </small>
@@ -33,8 +44,10 @@
     </div>
 
     <div class="my-3">
-      <button *ngFor="let action of actions; let indexAction = index" type="button" class="btn btn-primary mx-2" (click)="action(indexAction, action.href)">Button 1</button>
-      <p class="text-danger">{{ action | json }}</p>
+      <ng-container *ngFor="let action of actions; let indexAction = index">
+        <button  type="button" class="btn btn-primary mx-2" (click)="actionF(indexAction)">Button 1</button>
+        <!-- <p class="text-danger">{{ action | json }}</p> -->
+      </ng-container>
       <button type="button" class="btn btn-success" (click)="checkValidityForm()">chekValidityForm</button>
     </div>
 

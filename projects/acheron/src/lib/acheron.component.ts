@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AcheronService } from './acheron.service';
 
 @Component({
@@ -15,9 +15,14 @@ export class AcheronComponent implements OnInit {
   forms: any[] = [];
   actions: any[] = [];
 
+  public version : number = 1;
+  @Output() public emitVersion = new EventEmitter<any>();
+
   constructor(private acheronService: AcheronService) {}
 
   ngOnInit(): void {
+    this.emitVersion.emit(this.version);
+
     this.acheronService.getForm(27).subscribe((data: any) => {
       console.log(data);
       this.form_load = true;
@@ -35,7 +40,7 @@ export class AcheronComponent implements OnInit {
    * @param {Object} element - form element
    * @returns {Boolean} - true if required and empty, false otherwise
    */
-  requiredCheck(element: any) {
+  requiredCheck(element: any): boolean {
     return !!(element.required && element.value.length === 0);
   }
 
@@ -46,8 +51,19 @@ export class AcheronComponent implements OnInit {
    * @param {String} href - href to redirect
    * @returns {none} - without return
    */
-  action(index: number, href: string) {
-    console.log(`action-${index}: ` + href);
+  actionF(index: number): void {
+    const href = this.actions[index]?.href;
+    alert(`action-${index}: ` + href);
+
+    this.acheronService.getForm(28).subscribe((data: any) => {
+      console.log(data);
+      this.form_load = true;
+      this.forms = data.forms;
+      this.actions = data.actions;
+      this.checkFormFields = false;
+    }, (error) => {
+      console.log(error);
+    });
   }
 
   /**
@@ -56,7 +72,7 @@ export class AcheronComponent implements OnInit {
    * @param {any} element - elemento to 'clean'
    * @returns {any} - returns new array cleaned
    */
-  cleanProxy(element: any) {
+  cleanProxy(element: any): any {
     return JSON.parse(JSON.stringify(element));
   }
 
@@ -67,7 +83,7 @@ export class AcheronComponent implements OnInit {
    * @param {String} g - value
    * @returns {Boolean} - true if valid, false otherwise
    */
-  stringToRegex(s: any, m = 'g') {
+  stringToRegex(s: any, m = 'g'): any {
     return (m = s.match(/^([\/~@;%#'])(.*?)\1([gimsuy]*)$/)) ? new RegExp(m[2], m[3].split('').filter((i, p, s) => s.indexOf(i) === p).join('')) : new RegExp(s);
   }
 
@@ -77,7 +93,7 @@ export class AcheronComponent implements OnInit {
    * @param {Number} index - regex to match
    * @returns {none} - without return
    */
-  setTouched(index: number) {
+  setTouched(index: number): void {
     if (!Object.keys(this.forms[index]).includes('touched') && this.forms[index])
       this.forms[index].touched = true;
   }
@@ -89,7 +105,7 @@ export class AcheronComponent implements OnInit {
    * @param {String} value - value to check
    * @returns {Boolean} - true if valid, false otherwise
    */
-  checkRegex(regex: any, value: any) {
+  checkRegex(regex: any, value: any): boolean {
     if (value?.length !== 0) {
       return new RegExp(this.stringToRegex(regex)).test(value);
     } else {
@@ -103,7 +119,7 @@ export class AcheronComponent implements OnInit {
    * @param {Array} form - form to check
    * @returns {Boolean} - true if all valid, false otherwise
    */
-  checkValidityForm(form = this.cleanProxy(this.forms)) {
+  checkValidityForm(form = this.cleanProxy(this.forms)): void {
     const control = form.reduce((acc: any[], item: any, index: number) => {
       let counter = 0;
       if (item.validation !== '') {
