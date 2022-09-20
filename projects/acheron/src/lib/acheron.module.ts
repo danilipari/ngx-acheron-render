@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AcheronComponent } from './acheron.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -8,6 +10,8 @@ import { AcheronComponent } from './acheron.component';
     AcheronComponent
   ],
   imports: [
+    FormsModule,
+    CommonModule
   ],
   exports: [
     AcheronComponent

@@ -1,3 +1,42 @@
 <p>
-  acheron works! test 5
+  acheron works! test 8
 </p>
+
+<div class="container-fluid px-0">
+  <div class="p-4" *ngIf="form_load && forms.length > 0">
+
+    <form [name]="name_form" class="form-group">
+      <div class="mt-2" *ngFor="let elementF of forms; let indexForm = index">
+        <!-- <p>{{ elementF }}</p>
+        <hr> -->
+        <div *ngIf="elementF.visible">
+          <p class="text-danger">{{ elementF | json }}</p>
+          <div class="d-flex justify-content-between">
+            <label>{{ elementF.label }} {{ elementF.required ? '*' : '' }} </label>
+            <small>{{ elementF.value }}</small>
+            <p class="mb-0 text-muted">{{ elementF.description }}</p>
+          </div>
+          <input (click)="setTouched(indexForm)" class=" form-control form-control-lg " [ngClass]="requiredCheck(elementF) ? 'border border-danger': ''" autocomplete="off" [name]="elementF.name" [id]="elementF.name" [type]="elementF.inputType" [placeholder]="elementF.placeholder" [disabled]="!elementF.enabled" [(ngModel)]="elementF.value">
+          <div class="d-flex flex-column w-75 border border-danger mt-2 p-2 rounded" *ngIf="elementF.touched && (requiredCheck(elementF) || (!checkRegex(elementF.validation, elementF.value) && (elementF.validation !== '')))">
+            <small class="text-danger" *ngIf="requiredCheck(elementF)">&#9679; Required</small>
+            <small class="text-danger" *ngIf="!checkRegex(elementF.validation, elementF.value) && (elementF.validation !== '')">&#9679; Regex -  {{ elementF.validation !== "" ? elementF.validation : 'no-regex' }} </small>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div *ngIf="checkFormFields">
+      <div class="alert alert-danger my-3" role="alert">
+        <h4 class="alert-heading">Error!</h4>
+        <p>Please complete all fields respecting the filling rules!</p>
+      </div>
+    </div>
+
+    <div class="my-3">
+      <button *ngFor="let action of actions; let indexAction = index" type="button" class="btn btn-primary mx-2" (click)="action(indexAction, action.href)">Button 1</button>
+      <p class="text-danger">{{ action | json }}</p>
+      <button type="button" class="btn btn-success" (click)="checkValidityForm()">chekValidityForm</button>
+    </div>
+
+  </div>
+</div>
