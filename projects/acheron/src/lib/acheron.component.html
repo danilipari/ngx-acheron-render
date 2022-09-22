@@ -14,19 +14,42 @@
           </div>
 
           <container-element [ngSwitch]="elementF.component">
+            <!--  -->
             <ng-container *ngSwitchCase="'input'">
               <input (click)="setTouched(indexForm)" class=" form-control form-control-lg " [ngClass]="requiredCheck(elementF) ? 'border border-danger': ''" autocomplete="off" [name]="elementF.name" [id]="elementF.name" [type]="elementF.inputType" [placeholder]="elementF.placeholder" [disabled]="!elementF.enabled" [(ngModel)]="elementF.value">
             </ng-container>
             <ng-container *ngSwitchCase="'select'">
               <select (click)="setTouched(indexForm)" [ngClass]="requiredCheck(elementF) ? 'border border-danger': ''" class="form-select form-select-lg" [name]="elementF.name" [id]="elementF.name" [disabled]="!elementF.enabled" [(ngModel)]="elementF.value">
                 <option value="">Select one option</option>
-                <option [value]="option.value" *ngFor="let option of elementF.options; let iF = index">{{ option.value }}</option>
+                <option [value]="optionS.value" *ngFor="let optionS of elementF.options">{{ optionS.value }}</option>
               </select>
             </ng-container>
             <ng-container *ngSwitchCase="'textarea'">
               <textarea (click)="setTouched(indexForm)" class=" form-control form-control-lg " [ngClass]="requiredCheck(elementF) ? 'border border-danger': ''" autocomplete="off" [name]="elementF.name" [id]="elementF.name" [placeholder]="elementF.placeholder" [disabled]="!elementF.enabled" [(ngModel)]="elementF.value" cols="30" rows="10"></textarea>
             </ng-container>
+            <ng-container *ngSwitchCase="'checkbox'">
+              <div class="form-check form-switch form-switch-md">
+                <input class="form-check-input" type="checkbox" [id]="elementF.uuid"[(ngModel)]="elementF.value" (click)="elementF.value = !elementF.value; checkRefChange(elementF)">
+                <label class="mt-2 mx-3" [for]="elementF.uuid">&nbsp;</label>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'group'">
+              <div class="row">
+                <div class="col-3 my-auto">
+                  <p class="mb-0 fs-3">{{ elementF.description }}</p>
+                </div>
+                <div class="list-group col-4 p-2" *ngFor="let optionG of elementF.options" (click)="setTouched(indexForm); elementF.enabled ? elementF.value = optionG.value : null">
+                  <div class="list-group-item" [ngClass]="{' active ' : optionG.value == elementF.value, ' border border-danger rounded ' : requiredCheck(elementF), ' bg-muted ' : !elementF.enabled}">
+                    {{ optionG.value }}
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <!-- Under Input -->
+            <small class="text-danger" *ngIf="elementF.error && !elementF.touched">{{ elementF.error }}</small>
+            <!-- Under Input -->
           </container-element>
+
 
           <div class="d-flex flex-column w-75 border border-danger mt-2 p-2 rounded" *ngIf="elementF.touched && (requiredCheck(elementF) || (!checkRegex(elementF.validation, elementF.value) && (elementF.validation !== '')))">
             <small class="text-danger" *ngIf="requiredCheck(elementF)">&#9679; Required</small>
@@ -45,10 +68,12 @@
 
     <div class="my-3">
       <ng-container *ngFor="let action of actions; let indexAction = index">
-        <button  type="button" class="btn btn-primary mx-2" (click)="actionF(indexAction)">Button 1</button>
-        <!-- <p class="text-danger">{{ action | json }}</p> -->
+        <p class="text-danger">{{ action | json }}</p>
+        <button  type="button" [disabled]="!action.enabled" class="btn btn-primary mx-2" (click)="actionF(indexAction)">Button 1</button>
       </ng-container>
-      <button type="button" class="btn btn-success" (click)="checkValidityForm()">chekValidityForm</button>
+    </div>
+    <div class="my-3">
+      <button type="button" class="w-100 btn btn-success" (click)="checkValidityForm()">chekValidityForm</button>
     </div>
 
   </div>

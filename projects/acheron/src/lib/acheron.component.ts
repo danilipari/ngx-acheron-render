@@ -33,7 +33,6 @@ export class AcheronComponent implements OnInit {
     });
   }
 
-
   /**
    * @author Dani Lipari
    * @description Check if value is required and if it is empty
@@ -46,6 +45,27 @@ export class AcheronComponent implements OnInit {
 
   /**
    * @author Dani Lipari
+   * @description Checbox selected, need to found other Referred element
+   * @param element CheckBox element
+   * @returns {*} - function set on Referred element their "enabled" key
+   */
+  checkRefChange(element: any): void {
+    const refsArray = element.childrenRef.map((cR: any) => cR.uuidRef);
+    this.forms = this.forms.map((mF: any) => ({
+      ...mF,
+      enabled: refsArray.includes(mF.uuidRef) ? element.value : mF.enabled,
+      value: refsArray.includes(mF.uuidRef) ? '' : mF.value,
+    }));
+    this.actions = this.actions.map((mA: any) => ({
+      ...mA,
+      enabled: refsArray.includes(mA.uuidRef) ? element.value : mA.enabled,
+      value: refsArray.includes(mA.uuidRef) ? '' : mA.value,
+    }));
+    console.log(element, 'checkboxChange', this.forms, this.actions);
+  }
+
+  /**
+   * @author Dani Lipari
    * @description Function responsible for redirecting to the specified url or some action
    * @param {Number} index - index of form element
    * @param {String} href - href to redirect
@@ -53,7 +73,7 @@ export class AcheronComponent implements OnInit {
    */
   actionF(index: number): void {
     const href = this.actions[index]?.href;
-    alert(`action-${index}: ` + href);
+    console.log(`action-${index}: ${href}`);
 
     this.acheronService.getForm(28).subscribe((data: any) => {
       console.log(data);
