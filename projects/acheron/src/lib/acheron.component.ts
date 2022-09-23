@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AcheronService } from './acheron.service';
 
 @Component({
@@ -10,6 +10,7 @@ export class AcheronComponent implements OnInit {
 
   form_load: boolean = false;
   error: any | null = null;
+  testing: boolean = false;
   name_form: string = "";
   checkFormFields: boolean = false;
   forms: any[] = [];
@@ -17,13 +18,16 @@ export class AcheronComponent implements OnInit {
 
   public version : number = 1;
   @Output() public emitVersion = new EventEmitter<any>();
+  @Input() public initWorkflow!: number;
 
   constructor(private acheronService: AcheronService) {}
 
   ngOnInit(): void {
+    localStorage.getItem('-t-s-') ? this.testing = true : this.testing = false;
     this.emitVersion.emit(this.version);
 
-    this.acheronService.getForm(27).subscribe((data: any) => {
+    /* this.acheronService.getForm(27).subscribe((data: any) => { */
+    this.acheronService.getAcheron(2).subscribe((data: any) => {
       console.log(data);
       this.form_load = true;
       this.forms = data.forms;
@@ -31,6 +35,29 @@ export class AcheronComponent implements OnInit {
     }, (error) => {
       console.log(error);
     });
+  }
+
+  /**
+   * @author Dani Lipari
+   * @description Check all values and validation of forms
+   * @param forms Array of forms
+   * @returns {Boolean} - Array of forms Mapped with all values and validations visible
+   */
+  dataExitPreview(forms: Array<any> = this.forms): Array<any> {
+    const exitData = forms.map((item: any) => ({
+      id: item.id,
+      uuid: item.uuid,
+      uuidRef: item.uuidRef,
+      inputType: item.inputType,
+      validation: item.validation,
+      value: item.value,
+      childrenRef: item.childrenRef,
+      touched: item.touched,
+      enabled: item.enabled,
+      required: item.required,
+      visible: item.visible,
+    }));
+    return exitData;
   }
 
   /**
@@ -54,11 +81,13 @@ export class AcheronComponent implements OnInit {
     this.forms = this.forms.map((mF: any) => ({
       ...mF,
       enabled: refsArray.includes(mF.uuidRef) ? element.value : mF.enabled,
+      required: refsArray.includes(mF.uuidRef) ? element.value : mF.required,
       value: refsArray.includes(mF.uuidRef) ? '' : mF.value,
     }));
     this.actions = this.actions.map((mA: any) => ({
       ...mA,
       enabled: refsArray.includes(mA.uuidRef) ? element.value : mA.enabled,
+      required: refsArray.includes(mA.uuidRef) ? element.value : mA.required,
       value: refsArray.includes(mA.uuidRef) ? '' : mA.value,
     }));
     console.log(element, 'checkboxChange', this.forms, this.actions);

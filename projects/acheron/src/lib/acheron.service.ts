@@ -28,4 +28,15 @@ export class AcheronService {
   getForm(id: string | number = 27) {
     return this.http.get(`${API}form/${id}`, httpOptions);
   }
+
+  getAcheron(w_id: string | number, f_id?: string | number) {
+    const data = f_id !== null || f_id !== undefined ? {
+      "workflow_id": w_id,
+      "form_id": f_id
+    } : {
+      "workflow_id": w_id,
+    };
+
+    return this.http.post(`${API}acheron`, { ...data }, httpOptions);
+  }
 }

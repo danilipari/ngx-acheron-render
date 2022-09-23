@@ -1,4 +1,12 @@
 <div class="container-fluid px-0">
+  <ng-container *ngIf="testing">
+    <label class="text-warning">Exit Data</label>
+    <div class="border border-warning rounded p-3">
+      <pre>
+        {{ dataExitPreview(forms) | json }}
+      </pre>
+    </div>
+  </ng-container>
   <div class="p-4" *ngIf="form_load && forms.length > 0">
 
     <form [name]="name_form" class="form-group">
@@ -6,7 +14,7 @@
         <!-- <p>{{ elementF }}</p>
         <hr> -->
         <div *ngIf="elementF.visible">
-          <p class="text-danger">{{ elementF | json }}</p>
+          <!-- <p class="text-danger">{{ elementF | json }}</p> -->
           <div class="d-flex justify-content-between">
             <label>{{ elementF.label }} {{ elementF.required ? '*' : '' }} </label>
             <small>{{ elementF.value }}</small>
@@ -68,7 +76,7 @@
 
     <div class="my-3">
       <ng-container *ngFor="let action of actions; let indexAction = index">
-        <p class="text-danger">{{ action | json }}</p>
+        <!-- <p class="text-danger">{{ action | json }}</p> -->
         <button  type="button" [disabled]="!action.enabled" class="btn btn-primary mx-2" (click)="actionF(indexAction)">Button 1</button>
       </ng-container>
     </div>
