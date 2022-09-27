@@ -22,7 +22,18 @@
     </svg>
   </div>
 
-  <lib-acheron (emitVersion)="updateVersion($event)" [initWorkflow]="2"></lib-acheron>
+  <lib-acheron (emitVersion)="updateVersion($event)" (emitContent)="contentUpdate()" [widgetInput]="widgetInputData" [initWorkflow]="2">
+    <div contentwidget>
+      contentwidget
+    </div>
+    <div contentwidgetdue>
+      contentwidget2
+    </div>
+  </lib-acheron>
+
+  <pre>
+    {{ widgetInputData | json }}
+  </pre>
 
 
 </div>

@@ -18,7 +18,9 @@ export class AcheronComponent implements OnInit {
 
   public version : number = 1;
   @Output() public emitVersion = new EventEmitter<any>();
+  @Output() public emitContent = new EventEmitter<any>();
   @Input() public initWorkflow!: number;
+  @Input() public widgetInput!: any;
 
   constructor(private acheronService: AcheronService) {}
 

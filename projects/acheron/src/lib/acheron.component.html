@@ -14,6 +14,9 @@
         <!-- <p>{{ elementF }}</p>
         <hr> -->
         <div *ngIf="elementF.visible">
+          <ng-content select="[contentwidget]"></ng-content>
+          <ng-content select="[contentwidgetdue]"></ng-content>
+
           <!-- <p class="text-danger">{{ elementF | json }}</p> -->
           <div class="d-flex justify-content-between">
             <label>{{ elementF.label }} {{ elementF.required ? '*' : '' }} </label>
