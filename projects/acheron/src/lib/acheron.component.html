@@ -7,6 +7,16 @@
       </pre>
     </div>
   </ng-container>
+
+  <ng-container>
+    in lib
+    <pre>
+      {{ widgetInput | json }}
+    </pre>
+    <ng-content select="[contentwidget_gallery]"></ng-content>
+    <ng-content select="[contentwidget_profile]"></ng-content>
+  </ng-container>
+
   <div class="p-4" *ngIf="form_load && forms.length > 0">
 
     <form [name]="name_form" class="form-group">
@@ -14,9 +24,6 @@
         <!-- <p>{{ elementF }}</p>
         <hr> -->
         <div *ngIf="elementF.visible">
-          <ng-content select="[contentwidget]"></ng-content>
-          <ng-content select="[contentwidgetdue]"></ng-content>
-
           <!-- <p class="text-danger">{{ elementF | json }}</p> -->
           <div class="d-flex justify-content-between">
             <label>{{ elementF.label }} {{ elementF.required ? '*' : '' }} </label>

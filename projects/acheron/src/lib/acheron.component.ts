@@ -34,6 +34,7 @@ export class AcheronComponent implements OnInit {
       this.form_load = true;
       this.forms = data.forms;
       this.actions = data.actions;
+      this.emitContent.emit(['gallery' /* 'profile' */]);
     }, (error) => {
       console.log(error);
     });
