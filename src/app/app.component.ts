@@ -26,6 +26,12 @@ export class AppComponent implements OnInit {
     this.widgetInputData = data.map((item: any) => ({
       [item]: false
     }));
+
+    setTimeout(() => {
+      this.widgetInputData = this.widgetList.map((item: any) => ({
+        [item]: true
+      }));
+    }, 10000);
   }
 
   public componentInlude(element: string) {

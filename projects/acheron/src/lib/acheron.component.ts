@@ -15,7 +15,7 @@ export class AcheronComponent implements OnInit {
   checkFormFields: boolean = false;
   forms: any[] = [];
   actions: any[] = [];
-  widgetList: any[] = ['gallery'];
+  widgetList: any[] = [];
 
   public version : number = 1;
   @Output() public emitVersion = new EventEmitter<any>();
@@ -35,11 +35,13 @@ export class AcheronComponent implements OnInit {
       this.form_load = true;
       this.forms = data.forms;
       this.actions = data.actions;
-      this.emitContent.emit(this.widgetList);
-      setTimeout(() => {
-        this.widgetList.push('profile');
+
+      if (data.forms?.filter((fs: any) => fs.component === 'externalwidget')?.length === 1){
+        const external_component = data.forms.filter((fs: any) => fs.component === 'externalwidget');
+        this.widgetList = external_component.map((exc: any) => (exc.options[0].value));
         this.emitContent.emit(this.widgetList);
-      }, 5000);
+      }
+
     }, (error) => {
       console.log(error);
     });
