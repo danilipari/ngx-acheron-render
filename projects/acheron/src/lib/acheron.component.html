@@ -8,15 +8,6 @@
     </div>
   </ng-container>
 
-  <ng-container>
-    in lib
-    <pre>
-      {{ widgetInput | json }}
-    </pre>
-    <ng-content select="[contentwidget_gallery]"></ng-content>
-    <ng-content select="[contentwidget_profile]"></ng-content>
-  </ng-container>
-
   <div class="p-4" *ngIf="form_load && forms.length > 0">
 
     <form [name]="name_form" class="form-group">
@@ -50,6 +41,15 @@
                 <input class="form-check-input" type="checkbox" [id]="elementF.uuid"[(ngModel)]="elementF.value" (click)="elementF.value = !elementF.value; checkRefChange(elementF)">
                 <label class="mt-2 mx-3" [for]="elementF.uuid">&nbsp;</label>
               </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'externalwidget'">
+              <ng-container>
+                in lib
+                <pre>
+                  {{ widgetInput | json }}
+                </pre>
+                <ng-content *ngFor="let widget of widgetList" [select]="'[external_widget_' + widget + ']'"></ng-content>
+              </ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="'group'">
               <div class="row">

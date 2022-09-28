@@ -8,10 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   public title = 'acheron-render';
   public version = 0;
-  public widgetInputData: any = [
-    { 'gallery': true },
-    { 'profile': true },
-  ];
+  public widgetInputData: any = [];
   public widgetList: any = [];
 
   ngOnInit(): void {
@@ -26,6 +23,9 @@ export class AppComponent implements OnInit {
   public contentUpdate(data: any): void {
     console.log(data, 'contentUpdate');
     this.widgetList = data;
+    this.widgetInputData = data.map((item: any) => ({
+      [item]: false
+    }));
   }
 
   public componentInlude(element: string) {

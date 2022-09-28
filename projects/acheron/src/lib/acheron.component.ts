@@ -15,6 +15,7 @@ export class AcheronComponent implements OnInit {
   checkFormFields: boolean = false;
   forms: any[] = [];
   actions: any[] = [];
+  widgetList: any[] = ['gallery'];
 
   public version : number = 1;
   @Output() public emitVersion = new EventEmitter<any>();
@@ -34,7 +35,11 @@ export class AcheronComponent implements OnInit {
       this.form_load = true;
       this.forms = data.forms;
       this.actions = data.actions;
-      this.emitContent.emit(['gallery' /* 'profile' */]);
+      this.emitContent.emit(this.widgetList);
+      setTimeout(() => {
+        this.widgetList.push('profile');
+        this.emitContent.emit(this.widgetList);
+      }, 5000);
     }, (error) => {
       console.log(error);
     });
