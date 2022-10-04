@@ -15,7 +15,7 @@
         <!-- <p>{{ elementF }}</p>
         <hr> -->
         <div *ngIf="elementF.visible">
-          <!-- <p class="text-danger">{{ elementF | json }}</p> -->
+          <p class="text-danger">{{ elementF | json }}</p>
           <div class="d-flex justify-content-between">
             <label>{{ elementF.label }} {{ elementF.required ? '*' : '' }} </label>
             <small>{{ elementF.value }}</small>
@@ -42,15 +42,23 @@
                 <label class="mt-2 mx-3" [for]="elementF.uuid">&nbsp;</label>
               </div>
             </ng-container>
+
+
             <ng-container *ngSwitchCase="'externalwidget'">
+
               <ng-container>
                 in lib
                 <pre>
                   {{ widgetInput | json }}
                 </pre>
+                <pre>
+                  {{ widgetList | json }}
+                </pre>
                 <ng-content *ngFor="let widget of widgetList" [select]="'[external_widget_' + widget + ']'"></ng-content>
               </ng-container>
             </ng-container>
+
+
             <ng-container *ngSwitchCase="'group'">
               <div class="row">
                 <div class="col-3 my-auto">
@@ -86,8 +94,8 @@
 
     <div class="my-3">
       <ng-container *ngFor="let action of actions; let indexAction = index">
-        <!-- <p class="text-danger">{{ action | json }}</p> -->
-        <button  type="button" [disabled]="!action.enabled" class="btn btn-primary mx-2" (click)="actionF(indexAction)">Button 1</button>
+        <p class="text-danger">{{ action | json }}</p>
+        <button  type="button" [disabled]="!action.enabled" class="btn btn-primary mx-2" (click)="actionF(indexAction)">{{ action.description | uppercase }}</button>
       </ng-container>
     </div>
     <div class="my-3">
