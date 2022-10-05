@@ -16,12 +16,12 @@ export class AppComponent implements OnInit {
   }
 
   public updateVersion(element: any): void {
-    console.log(element, 'element');
+    console.debug(element, 'element');
     this.version = element;
   }
 
   public contentUpdate(data: any): void {
-    console.log(data, 'contentUpdate');
+    console.debug(data, 'contentUpdate');
     this.widgetList = data;
     this.widgetInputData = data.map((item: any) => ({
       [item]: false

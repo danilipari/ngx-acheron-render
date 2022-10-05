@@ -31,7 +31,7 @@ export class AcheronComponent implements OnInit {
 
     /* this.acheronService.getForm(27).subscribe((data: any) => { */
     this.acheronService.getAcheron(2).subscribe((data: any) => {
-      console.log(data);
+      console.debug(data);
       this.form_load = true;
       this.forms = data.forms;
       this.actions = data.actions;
@@ -110,19 +110,34 @@ export class AcheronComponent implements OnInit {
    * @param {String} href - href to redirect
    * @returns {none} - without return
    */
-  actionF(index: number): void {
-    const href = this.actions[index]?.href;
-    console.log(`action-${index}: ${href}`);
+  async actionF(index: number): Promise<void> {
+    if (this.actions[index].options[0].optionType === "submit" && this.actions[index].options[0].value) {
+      if(this.checkValidityForm() && !this.checkFormFields) {
+        const href = this.actions[index]?.href;
 
-    this.acheronService.getForm(28).subscribe((data: any) => {
-      console.log(data);
-      this.form_load = true;
-      this.forms = data.forms;
-      this.actions = data.actions;
-      this.checkFormFields = false;
-    }, (error) => {
-      console.log(error);
-    });
+        const elements = this.cleanProxy(this.forms).reduce((acc: any[], item: any, index: number) => {
+          const elMap = { [`${item.id}-${item.inputType}`]: item.value };
+          acc = [...acc, elMap];
+          return acc;
+        }, []);
+
+        console.log(`action export`, elements);
+        this.acheronService.getForm(28).subscribe((data: any) => {
+          console.log(data);
+          this.form_load = true;
+          this.forms = data.forms;
+          this.actions = data.actions;
+          this.checkFormFields = false;
+        }, (error) => {
+          console.log(error);
+        });
+      } else {
+        console.log("Please selected  a valid form fields");
+      }
+    } else {
+      const href = this.actions[index]?.href;
+      alert(`action: ${href}`);
+    }
   }
 
   /**
@@ -178,17 +193,19 @@ export class AcheronComponent implements OnInit {
    * @param {Array} form - form to check
    * @returns {Boolean} - true if all valid, false otherwise
    */
-  checkValidityForm(form = this.cleanProxy(this.forms)): void {
+  checkValidityForm(form = this.cleanProxy(this.forms)): boolean {
     const control = form.reduce((acc: any[], item: any, index: number) => {
       let counter = 0;
-      if (item.validation !== '') {
-        if (!this.checkRegex(item.validation, item.value)) {
-          counter++;
+      if (item.enabled && item.visible) {
+        if (item.validation !== '') {
+          if (!this.checkRegex(item.validation, item.value) && item.required) {
+            counter++;
+          }
         }
-      }
-      if (item.required) {
-        if (item.value.length === 0) {
-          counter++;
+        if (item.required) {
+          if (item.value.length === 0) {
+            counter++;
+          }
         }
       }
       acc = [...acc, counter];

@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { RouteReuseStrategy } from '@angular/router';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -19,10 +22,12 @@ import { AcheronModule } from 'acheron';
     FormsModule,
     HttpClientModule,
     AcheronModule,
-    CommonModule
+    CommonModule,
+    IonicModule.forRoot(),
   ],
   providers: [
-    HttpClient
+    HttpClient,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]
 })

@@ -91,16 +91,16 @@
         <p>Please complete all fields respecting the filling rules!</p>
       </div>
     </div>
-
+    --checkFormFields--> {{ checkFormFields }} --checkFormFields-->
     <div class="my-3">
       <ng-container *ngFor="let action of actions; let indexAction = index">
         <p class="text-danger">{{ action | json }}</p>
         <button  type="button" [disabled]="!action.enabled" class="btn btn-primary mx-2" (click)="actionF(indexAction)">{{ action.description | uppercase }}</button>
       </ng-container>
     </div>
-    <div class="my-3">
+    <!-- <div class="my-3">
       <button type="button" class="w-100 btn btn-success" (click)="checkValidityForm()">chekValidityForm</button>
-    </div>
+    </div> -->
 
   </div>
 </div>
