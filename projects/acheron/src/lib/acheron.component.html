@@ -58,6 +58,10 @@
               </ng-container>
             </ng-container>
 
+            <ng-container *ngSwitchCase="'customeditor'">
+              <div [innerText]="elementF.value"></div>
+            </ng-container>
+
 
             <ng-container *ngSwitchCase="'group'">
               <div class="row">
