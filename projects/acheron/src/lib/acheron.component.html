@@ -15,10 +15,10 @@
         <!-- <p>{{ elementF }}</p>
         <hr> -->
         <div *ngIf="elementF.visible">
-          <p class="text-danger">{{ elementF | json }}</p>
+          <!-- <p class="text-danger">{{ elementF | json }}</p> -->
           <div class="d-flex justify-content-between">
             <label>{{ elementF.label }} {{ elementF.required ? '*' : '' }} </label>
-            <small>{{ elementF.value }}</small>
+            <!-- <small>{{ elementF.value }}</small> -->
             <p class="mb-0 text-muted">{{ elementF.description }}</p>
           </div>
 
@@ -45,21 +45,18 @@
 
 
             <ng-container *ngSwitchCase="'externalwidget'">
-
-              <ng-container>
-                in lib
-                <pre>
-                  {{ widgetInput | json }}
-                </pre>
-                <pre>
-                  {{ widgetList | json }}
-                </pre>
-                <ng-content *ngFor="let widget of widgetList" [select]="'[external_widget_' + widget + ']'"></ng-content>
-              </ng-container>
+              in lib
+              <pre>
+                {{ widgetInput | json }}
+              </pre>
+              <pre>
+                {{ widgetList | json }}
+              </pre>
+              <ng-content *ngFor="let widget of widgetList" [select]="'[external_widget_' + widget + ']'"></ng-content>
             </ng-container>
 
             <ng-container *ngSwitchCase="'customeditor'">
-              <div [innerText]="elementF.value"></div>
+              <div [innerHTML]="elementF.value"></div>
             </ng-container>
 
 
@@ -98,7 +95,7 @@
     --checkFormFields--> {{ checkFormFields }} --checkFormFields-->
     <div class="my-3">
       <ng-container *ngFor="let action of actions; let indexAction = index">
-        <p class="text-danger">{{ action | json }}</p>
+        <!-- <p class="text-danger">{{ action | json }}</p> -->
         <button  type="button" [disabled]="!action.enabled" class="btn btn-primary mx-2" (click)="actionF(indexAction)">{{ action.description | uppercase }}</button>
       </ng-container>
     </div>
