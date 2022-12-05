@@ -29,7 +29,6 @@ export class AcheronComponent implements OnInit {
     localStorage.getItem('-t-s-') ? this.testing = true : this.testing = false;
     this.emitVersion.emit(this.version);
 
-    /* this.acheronService.getForm(27).subscribe((data: any) => { */
     this.acheronService.getAcheron(2).subscribe((data: any) => {
       console.debug(data);
       this.form_load = true;
@@ -122,7 +121,7 @@ export class AcheronComponent implements OnInit {
         }, []);
 
         console.log(`action export`, elements);
-        this.acheronService.getForm(28).subscribe((data: any) => {
+        /* this.acheronService.getForm(28).subscribe((data: any) => {
           console.log(data);
           this.form_load = true;
           this.forms = data.forms;
@@ -130,7 +129,7 @@ export class AcheronComponent implements OnInit {
           this.checkFormFields = false;
         }, (error) => {
           console.log(error);
-        });
+        }); */
       } else {
         console.log("Please selected  a valid form fields");
       }

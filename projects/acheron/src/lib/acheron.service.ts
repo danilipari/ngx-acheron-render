@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 
-const API = 'https://st-sti.escort-advisor.com/api/v1/'
-
-/* apiUrl_local: 'http://localhost:8080',
-apiUrl: 'https://st-sti.escort-advisor.com/api/v1/' */
+const APIOld = 'https://st-sti.escort-advisor.com/api/v1/';
+const API = 'https://st-sti.escort-advisor.com/form/v1/';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -30,13 +28,10 @@ export class AcheronService {
   }
 
   getAcheron(w_id: string | number, f_id?: string | number) {
-    const data = f_id !== null || f_id !== undefined ? {
-      "workflow_id": w_id,
-      "form_id": f_id
-    } : {
+    const data = {
       "workflow_id": w_id,
     };
 
-    return this.http.post(`${API}acheron`, { ...data }, httpOptions);
+    return this.http.post(`${API}initialize`, { ...data }, httpOptions);
   }
 }
